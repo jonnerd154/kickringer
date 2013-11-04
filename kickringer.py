@@ -108,8 +108,12 @@ def go():
                     # All of this delay logic is to evenly-ish, randomly disribute dings thoughout the update window
                     # to simulate near-realtime operation without melting the faces of KickStarter's servers for
                     # no good reason.  minDelay should represent the time it takes the bell hardware to recover.
-                    # If by some miracle there are more new backers in a time period than the minimum delay will allow
-                    #   Example: updateInterval = 10s, newBackers
+                    # If by some miracle there are more new backers in a an update period than the minimum delay will allow,
+                    # the minimum delay will fall to 0 to prevent the fabric of space and time from being torn apart (if start >> stop)
+                    #
+                    #   Example: updateInterval = 10s, newBackers>1999 --> minDelay = 5
+                    #            updateInterval = 10s, newBackers=2000 --> minDelay = 5
+                    #            updateInterval = 10s, newBackers>2001 --> minDelay = 0
                     minDelay = 5
                     t = int(float(remainingTime) / remainingEvents)
                     if( t < minDelay):
